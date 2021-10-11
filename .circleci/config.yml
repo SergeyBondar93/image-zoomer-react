@@ -14,9 +14,11 @@ jobs:
       name: node/default
       version: 16.11.0
     steps:
+      - checkout
       - run: npm install
   build:
     executor:
       name: node/default
     steps:
+      - checkout
       - run: npm run build

@@ -9,16 +9,10 @@ orbs:
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 jobs:
-  install_packages:
-    executor:
-      name: node/default
-      version: 16.11.0
-    steps:
-      - checkout
-      - run: npm install
   build:
     executor:
       name: node/default
     steps:
       - checkout
+      - run: npm install
       - run: npm run build

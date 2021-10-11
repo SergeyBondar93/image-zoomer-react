@@ -10,21 +10,23 @@ jobs:
       - node/install:
           install-yarn: true
       - run: node --version
-  install-packages:
-    docker:
-      - image: 'cimg/base:stable'
-    steps:
-      - checkout
       - run: npm install
-  build:
-    docker:
-      - image: 'cimg/base:stable'
-    steps:
-      - checkout
       - run: npm run build
+  # install-packages:
+  #   docker:
+  #     - image: 'cimg/base:stable'
+  #   steps:
+  #     - checkout
+  #     - run: npm install
+  # build:
+  #   docker:
+  #     - image: 'cimg/base:stable'
+  #   steps:
+  #     - checkout
+  #     - run: npm run build
 workflows:
   test_my_app:
     jobs:
       - install-node-example
-      - install-packages
-      - build
+      # - install-packages
+      # - build

@@ -1,14 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ImageZoomer } from "./component/ImageZoomer";
 
 function App() {
-  const [imageUrl, setImageUrl] = useState(
-    "https://upload.wikimedia.org/wikipedia/commons/1/15/2013-03-05_Geneva_Motor_Show_8182.JPG"
+  const [originalImageUrl, setOriginalImageUrl] = useState(
+    "/static/media/f34.2f853524.jpg"
+  );
+  const [compressedImageUrl, setCompressedImageUrl] = useState(
+    "/static/media/f34compressed.4c51cb4d.jpg"
   );
 
-  const onChange = ({ currentTarget: { value } }: any) => {
-    setImageUrl(value);
+  const onChangeOriginal: React.ChangeEventHandler<HTMLInputElement> = ({
+    currentTarget: { value },
+  }) => {
+    setOriginalImageUrl(value);
   };
+  const onChangeCompressed: React.ChangeEventHandler<HTMLInputElement> = ({
+    currentTarget: { value },
+  }) => {
+    setCompressedImageUrl(value);
+  };
+
+  useEffect(() => {
+    (() => {
+      import("./f34.jpg").then(async (r) => {
+        console.log(r.default);
+        const d = await fetch(r.default);
+        console.log(d);
+      });
+    })();
+  }, []);
 
   return (
     <div
@@ -17,8 +37,23 @@ function App() {
         margin: "100px",
       }}
     >
-      <input value={imageUrl} onChange={onChange} />
-      <ImageZoomer originalImageUrl={imageUrl} />
+      <label htmlFor="original">Original image URL</label>
+      <input
+        value={originalImageUrl}
+        id="original"
+        onChange={onChangeOriginal}
+      />
+      <br />
+      <label htmlFor="compressed">Compressed image URL</label>
+      <input
+        value={compressedImageUrl}
+        id="compressed"
+        onChange={onChangeCompressed}
+      />
+      <ImageZoomer
+        originalImageUrl={originalImageUrl}
+        previewImageUrl={compressedImageUrl}
+      />
     </div>
   );
 }

@@ -1,4 +1,8 @@
-export const getImage = async ({ url, httpClient = fetch }: any) => {
+import { HttpClientType } from "./types";
+
+type GetImageFn = (url: string, httpClient: HttpClientType) => Promise<string>;
+
+export const getImage: GetImageFn = async (url, httpClient) => {
   const request = await httpClient(url);
   const blob = await request.blob();
 
@@ -14,7 +18,22 @@ export const getImage = async ({ url, httpClient = fetch }: any) => {
   return image as string;
 };
 
-export const getOriginalImageTransform = ({
+type GetOriginalImageTransformParams = {
+  offsetX: number;
+  offsetY: number;
+  width: number;
+  height: number;
+  originalImageWidth: number;
+  originalImageHeight: number;
+  popoverWidth: number;
+  popoverHeight: number;
+};
+
+type GetOriginalImageTransformFn = (
+  arg: GetOriginalImageTransformParams
+) => string;
+
+export const getOriginalImageTransform: GetOriginalImageTransformFn = ({
   offsetX,
   offsetY,
   width,
@@ -23,7 +42,7 @@ export const getOriginalImageTransform = ({
   originalImageHeight,
   popoverWidth,
   popoverHeight,
-}: any) => {
+}) => {
   const fromLeft = offsetX / width;
   const fromTop = offsetY / height;
   const percentLeft = Math.ceil(fromLeft * 100);

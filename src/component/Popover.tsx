@@ -1,7 +1,13 @@
-import { forwardRef } from "react";
+import { forwardRef, ReactNode } from "react";
 
-export const Popover = forwardRef<HTMLDivElement, any>(
-  ({ visible, content, popoverWidth }: any, ref) => {
+interface IPopoverProps {
+  visible: boolean;
+  content: ReactNode;
+  popoverWidth: number;
+}
+
+export const Popover = forwardRef<HTMLDivElement, IPopoverProps>(
+  ({ visible, content, popoverWidth }: IPopoverProps, ref) => {
     return (
       <div
         style={{
